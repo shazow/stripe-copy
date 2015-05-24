@@ -4,6 +4,8 @@
 
 Sometimes you need to migrate between two different Stripe accounts. You can ask Stripe to copy your customer objects, but they will not copy the rest of the objects. See: [How can I migrate to a new Stripe account?](https://support.stripe.com/questions/how-can-i-migrate-to-a-new-stripe-account-7a206563-51ad-4c70-a995-a01f57a3eb56)
 
+> We are able to do one-time copies of customer data across accounts, so that you don’t have to ask your users to re-enter their credit card details in the event that you are migrating to a new account. Get in touch to arrange copying this data over. [...] Charges, invoices, plans, subscriptions, coupons, events, and logs do not get copied over. Only the raw customer objects get copied over.
+
 `stripe-copy` is a command-line tool for copying Stripe objects like Plans and Subscriptions between accounts.
 
 
