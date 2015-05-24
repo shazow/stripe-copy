@@ -1,6 +1,6 @@
 # stripe-copy
 
-**Status**: Unstable. Use with caution, please audit the code and contribute.
+**Status**: *Unstable. Use with caution, please audit the code and contribute.*
 
 Sometimes you need to migrate between two different Stripe accounts. You can ask Stripe to copy your customer objects, but they will not copy the rest of the objects. See: [How can I migrate to a new Stripe account?](https://support.stripe.com/questions/how-can-i-migrate-to-a-new-stripe-account-7a206563-51ad-4c70-a995-a01f57a3eb56)
 
