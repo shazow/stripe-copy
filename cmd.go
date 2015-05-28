@@ -8,11 +8,11 @@ import (
 	"github.com/alexcesaro/log/golog"
 	"github.com/jessevdk/go-flags"
 )
-import _ "net/http/pprof"
 
 // Options contains the flag options
 type Options struct {
 	Verbose []bool `short:"v" long:"verbose" description:"Show verbose logging."`
+	Pretend bool   `short:"p" long:"pretend" description:"Do everything read-only, skip writes."`
 }
 
 var logLevels = []log.Level{
@@ -45,7 +45,14 @@ func main() {
 	}
 
 	logLevel := logLevels[numVerbose]
-	SetLogger(golog.New(os.Stderr, logLevel))
+	setLogger(golog.New(os.Stderr, logLevel))
+
+	api := newStripeAPI(os.Getenv(EnvStripeFrom), os.Getenv(EnvStripeTo))
+	err = api.SyncPlans()
+	if err != nil {
+		fail(1, "Failed to sync plans:", err)
+
+	}
 
 	fmt.Fprintln(os.Stderr, "Done.")
 	os.Exit(0)
