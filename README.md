@@ -9,16 +9,27 @@ Sometimes you need to migrate between two different Stripe accounts. You can ask
 `stripe-copy` is a command-line tool for copying Stripe objects like Plans and Subscriptions between accounts.
 
 
+## Install
+
+You'll need Go to build the source, ideally version 1.4 or newer.
+
+```
+$ go get github.com/shazow/stripe-copy
+```
+
+If this project matures, we'll add binaries with tagged releases.
+
+
 ## Usage
 
 The tool loads your private keys from environment variables `STRIPE_SOURCE` and
 `STRIPE_TARGET`.
 
-```shell
+```
 $ export STRIPE_SOURCE="YOUR_PRIVATE_API_KEY" STRIPE_TARGET="OTHER_PRIVATE_API_KEY"
 ```
 
-```shell
+```
 $ stripe-copy --help
 Usage:
   stripe-copy [OPTIONS]
@@ -32,7 +43,7 @@ Help Options:
   -h, --help     Show this help message
 ```
 
-```shell
+```
 $ stripe-copy -vv --pretend
 2015-05-29 12:50:45.870 INFO Running in pretend mode. Write operations will be skipped.
 2015-05-29 12:50:45.870 DEBUG Loading target plans...
@@ -48,6 +59,7 @@ $ stripe-copy -vv --pretend
 - [ ] Sync Subscriptions (if customers are present)
 - [ ] Export to file (YAML?)
 - [ ] Import from file
+- [ ] Tagged release with pre-built binaries
 - [ ] Option to delete target items missing from source
 - [ ] Option to do a bi-directional sync
 
