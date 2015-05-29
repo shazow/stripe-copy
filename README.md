@@ -79,14 +79,12 @@ along.
 
 1. **[Check for open issues](https://github.com/shazow/stripe-copy/issues) or open
    a fresh issue** to start a discussion around a feature idea or a bug. Let us know
-   what you'll be working to avoid duplicating effort.
+   what you'll be working to avoid duplicating effort. Bonus points if you pick a task off the roadmap above.
 2. **Send a pull request.** It's okay to do this early to get some feedback. Add
    `[WIP]` to the title if you're not done yet.
 3. Politely yet persistently bug the maintainer until it gets reviewed and merged. :)
 
-Bonus points if you pick a task off the roadmap above.
-
-Too little time but plenty of money? [Add a bounty on
+**Too little time but plenty of money?** [Add a bounty on
 Bountysource](https://www.bountysource.com/).
 
 ## License
