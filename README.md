@@ -74,16 +74,20 @@ Anything else we'd like to sync?
 
 ## Contributing
 
-Please do. :)
+Please do. Even if you're just getting started with Go, we're happy to guide you
+along.
 
-1. [Check for open issues](https://github.com/shazow/stripe-copy/issues) or open
-a fresh issue to start a discussion around a feature idea or a bug. Let us know
-what you'll be working to avoid duplicating effort.
-2. Send a pull request and bug the maintainer until it gets reviewed and merged.
-:)
+1. **[Check for open issues](https://github.com/shazow/stripe-copy/issues) or open
+   a fresh issue** to start a discussion around a feature idea or a bug. Let us know
+   what you'll be working to avoid duplicating effort.
+2. **Send a pull request.** It's okay to do this early to get some feedback. Add
+   `[WIP]` to the title if you're not done yet.
+3. Politely yet persistently bug the maintainer until it gets reviewed and merged. :)
 
 Bonus points if you pick a task off the roadmap above.
 
+Too little time but plenty of money? [Add a bounty on
+Bountysource](https://www.bountysource.com/).
 
 ## License
 
