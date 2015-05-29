@@ -54,16 +54,35 @@ $ stripe-copy -vv --pretend
 
 ## Roadmap
 
+In approximate order of priority:
+
 - [x] Sync Plans
 - [ ] Confirm Customers
 - [ ] Sync Subscriptions (if customers are present)
+- [ ] Release v1.0
 - [ ] Export to file (YAML?)
 - [ ] Import from file
-- [ ] Tagged release with pre-built binaries
+- [ ] Release v1.1
+- [ ] Setup continuous builds for binaries of tagged releases
+- [ ] Refactor sync logic into a library and document
+- [ ] Add tests
 - [ ] Option to delete target items missing from source
 - [ ] Option to do a bi-directional sync
 
-Anything else we'd like to sync? Open an issue or send a pull request.
+Anything else we'd like to sync?
+
+
+## Contributing
+
+Please do. :)
+
+1. [Check for open issues](https://github.com/shazow/stripe-copy/issues) or open
+a fresh issue to start a discussion around a feature idea or a bug. Let us know
+what you'll be working to avoid duplicating effort.
+2. Send a pull request and bug the maintainer until it gets reviewed and merged.
+:)
+
+Bonus points if you pick a task off the roadmap above.
 
 
 ## License
