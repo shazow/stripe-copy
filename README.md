@@ -41,12 +41,17 @@ $ stripe-copy -vv --pretend
 2015-05-29 12:50:47.338 DEBUG Pretend mode: Stopping early.
 ```
 
-## Features
+## Roadmap
 
-- [ ] Synchronize all the things
-  - [x] Plans
-  - [ ] Customers (confirm-only)
-  - [ ] Subscriptions (if customers are present)
+- [x] Sync Plans
+- [ ] Confirm Customers
+- [ ] Sync Subscriptions (if customers are present)
+- [ ] Delete omitted flag
+- [ ] Export to file (YAML?)
+- [ ] Import from file
+
+Anything else we'd like to sync? Open an issue or send a pull request.
+
 
 ## License
 
