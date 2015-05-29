@@ -72,7 +72,5 @@ func main() {
 		fail(2, "Failed to sync plans: %s\n", err)
 
 	}
-
-	fmt.Fprintln(os.Stderr, "Done.")
 	os.Exit(0)
 }

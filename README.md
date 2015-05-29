@@ -11,16 +11,42 @@ Sometimes you need to migrate between two different Stripe accounts. You can ask
 
 ## Usage
 
-The tool loads your private keys from environment variables `STRIPE_FROM` and `STRIPE_TO`.
+The tool loads your private keys from environment variables `STRIPE_SOURCE` and
+`STRIPE_TARGET`.
 
 ```shell
-export STRIPE_FROM="YOUR_PRIVATE_API_KEY" STRIPE_TO="OTHER_PRIVATE_API_KEY"
+$ export STRIPE_SOURCE="YOUR_PRIVATE_API_KEY" STRIPE_TARGET="OTHER_PRIVATE_API_KEY"
 ```
 
 ```shell
-stripe-copy --help
+$ stripe-copy --help
+Usage:
+  stripe-copy [OPTIONS]
+
+Application Options:
+  -v, --verbose  Show verbose logging.
+  -p, --pretend  Do everything read-only, skip writes.
+      --version
+
+Help Options:
+  -h, --help     Show this help message
 ```
 
+```shell
+$ stripe-copy -vv --pretend
+2015-05-29 12:50:45.870 INFO Running in pretend mode. Write operations will be skipped.
+2015-05-29 12:50:45.870 DEBUG Loading target plans...
+2015-05-29 12:50:47.119 DEBUG Loaded 5 To plans. Loading source plans...
+2015-05-29 12:50:47.338 INFO Plans: 5 loaded, 0 missing, 0 changed.
+2015-05-29 12:50:47.338 DEBUG Pretend mode: Stopping early.
+```
+
+## Features
+
+- [ ] Synchronize all the things
+  - [x] Plans
+  - [ ] Customers (confirm-only)
+  - [ ] Subscriptions (if customers are present)
 
 ## License
 
