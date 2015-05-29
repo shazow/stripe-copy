@@ -9,12 +9,18 @@ import (
 	"github.com/jessevdk/go-flags"
 )
 
-// Options contains the flag options
-type Options struct {
-	Verbose []bool `short:"v" long:"verbose" description:"Show verbose logging."`
-	Pretend bool   `short:"p" long:"pretend" description:"Do everything read-only, skip writes."`
+// version is overridden during the build process
+var version string = "dev"
+
+// cmdOptions contains the flag options
+type cmdOptions struct {
+	Verbose   []bool `short:"v" long:"verbose" description:"Show verbose logging."`
+	Pretend   bool   `short:"p" long:"pretend" description:"Do everything read-only, skip writes."`
+	StopAfter int    `long:"stopAfter" description:"Stop after this many write operations."`
+	Version   bool   `long:"version"`
 }
 
+// logLevels corresponds to the number of Verbose flags set
 var logLevels = []log.Level{
 	log.Warning,
 	log.Info,
@@ -27,7 +33,7 @@ func fail(code int, format string, args ...interface{}) {
 }
 
 func main() {
-	options := Options{}
+	options := cmdOptions{}
 	parser := flags.NewParser(&options, flags.Default)
 	p, err := parser.Parse()
 	if err != nil {
@@ -36,6 +42,11 @@ func main() {
 		}
 		os.Exit(1)
 		return
+	}
+
+	if options.Version {
+		fmt.Printf(version)
+		os.Exit(0)
 	}
 
 	// Figure out the log level
@@ -47,10 +58,24 @@ func main() {
 	logLevel := logLevels[numVerbose]
 	setLogger(golog.New(os.Stderr, logLevel))
 
-	api := newStripeAPI(os.Getenv(EnvStripeFrom), os.Getenv(EnvStripeTo))
+	api, err := newStripeAPI(os.Getenv(envStripeSource), os.Getenv(envStripeTarget))
+	if err != nil {
+		fail(1, "Failed to initialize API: %s\n", err)
+	}
+
+	if options.Pretend {
+		logger.Info("Running in pretend mode. Write operations will be skipped.")
+		api.pretend = true
+	}
+
+	if options.StopAfter > 0 {
+		logger.Debugf("Will stop after %d write operations.", options.StopAfter)
+		api.stopAfter = options.StopAfter
+	}
+
 	err = api.SyncPlans()
 	if err != nil {
-		fail(1, "Failed to sync plans:", err)
+		fail(2, "Failed to sync plans: %s\n", err)
 
 	}
 

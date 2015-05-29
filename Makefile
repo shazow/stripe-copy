@@ -1,16 +1,17 @@
 BINARY = stripe-copy
 
-SRCS = %.go
-
 all: $(BINARY)
 
-$(BINARY): **/**/*.go **/*.go *.go
-	go build -ldflags "-X main.buildCommit `git describe --long --tags --dirty --always`" .
+$(BINARY): *.go
+	go build -ldflags "-X main.version $(git describe --long --tags --dirty --always)" .
 
 deps:
 	go get .
 
 build: $(BINARY)
+
+run: $(BINARY)
+	./$(BINARY) -vv --pretend
 
 clean:
 	rm $(BINARY)
