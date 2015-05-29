@@ -52,7 +52,7 @@ func (api stripeAPI) SyncPlans() error {
 		return err
 	}
 
-	logger.Debugf("Loaded %d To plans. Loading source plans...", len(sync.target))
+	logger.Debugf("Loaded %d target plans. Loading source plans...", len(sync.target))
 	iter = api.source.Plans.List(params)
 	for iter.Next() {
 		p := iter.Plan()

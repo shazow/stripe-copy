@@ -36,7 +36,7 @@ Help Options:
 $ stripe-copy -vv --pretend
 2015-05-29 12:50:45.870 INFO Running in pretend mode. Write operations will be skipped.
 2015-05-29 12:50:45.870 DEBUG Loading target plans...
-2015-05-29 12:50:47.119 DEBUG Loaded 5 To plans. Loading source plans...
+2015-05-29 12:50:47.119 DEBUG Loaded 5 target plans. Loading source plans...
 2015-05-29 12:50:47.338 INFO Plans: 5 loaded, 0 missing, 0 changed.
 2015-05-29 12:50:47.338 DEBUG Pretend mode: Stopping early.
 ```
@@ -46,9 +46,10 @@ $ stripe-copy -vv --pretend
 - [x] Sync Plans
 - [ ] Confirm Customers
 - [ ] Sync Subscriptions (if customers are present)
-- [ ] Delete omitted flag
 - [ ] Export to file (YAML?)
 - [ ] Import from file
+- [ ] Option to delete target items missing from source
+- [ ] Option to do a bi-directional sync
 
 Anything else we'd like to sync? Open an issue or send a pull request.
 
