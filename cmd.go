@@ -14,10 +14,9 @@ var version string = "dev"
 
 // cmdOptions contains the flag options
 type cmdOptions struct {
-	Verbose   []bool `short:"v" long:"verbose" description:"Show verbose logging."`
-	Pretend   bool   `short:"p" long:"pretend" description:"Do everything read-only, skip writes."`
-	StopAfter int    `long:"stopAfter" description:"Stop after this many write operations."`
-	Version   bool   `long:"version"`
+	Verbose []bool `short:"v" long:"verbose" description:"Show verbose logging."`
+	Pretend bool   `short:"p" long:"pretend" description:"Do everything read-only, skip writes."`
+	Version bool   `long:"version"`
 }
 
 // logLevels corresponds to the number of Verbose flags set
@@ -66,11 +65,6 @@ func main() {
 	if options.Pretend {
 		logger.Info("Running in pretend mode. Write operations will be skipped.")
 		api.pretend = true
-	}
-
-	if options.StopAfter > 0 {
-		logger.Debugf("Will stop after %d write operations.", options.StopAfter)
-		api.stopAfter = options.StopAfter
 	}
 
 	err = api.SyncPlans()
