@@ -69,7 +69,7 @@ func (s syncThing) Diff(w io.Writer) (err error) {
 		fmt.Fprintf(w, "+ %s\n", t)
 	}
 	for _, t := range s.changed {
-		// TODO: Print diff
+		// TODO: Print diff. Maybe a better strategy would be to MarshalJSON and use a jsondiff package?
 		// fmt.Fprintf(w, "~ %s\n  %s\n", t, s.target[id])
 		fmt.Fprintf(w, "~ %s\n", t)
 	}
