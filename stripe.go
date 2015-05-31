@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"errors"
+	"io"
 
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/client"
@@ -23,6 +25,7 @@ type stripeAPI struct {
 	source  *client.API
 	target  *client.API
 	pretend bool
+	out     io.Writer
 }
 
 func newStripeAPI(sourceKey string, targetKey string) (*stripeAPI, error) {
@@ -32,6 +35,7 @@ func newStripeAPI(sourceKey string, targetKey string) (*stripeAPI, error) {
 	s := stripeAPI{
 		source: &client.API{},
 		target: &client.API{},
+		out:    &bytes.Buffer{},
 	}
 	s.source.Init(sourceKey, nil)
 	s.target.Init(targetKey, nil)
@@ -62,8 +66,7 @@ func (api stripeAPI) SyncPlans() error {
 		return err
 	}
 
-	logger.Infof("Plans: %d loaded, %d missing, %d changed.", len(sync.target), len(sync.missing), len(sync.changed))
-
+	sync.Diff(api.out)
 	if api.pretend {
 		logger.Debug("SyncPlans: Pretend mode, stopping early.")
 		return nil
@@ -96,8 +99,7 @@ func (api stripeAPI) CheckCustomers() error {
 		return err
 	}
 
-	logger.Infof("Customers: %d loaded, %d missing, %d changed.", len(sync.target), len(sync.missing), len(sync.changed))
-
+	sync.Diff(api.out)
 	if api.pretend {
 		logger.Debug("CheckCustomers: Pretend mode, stopping early.")
 		return nil

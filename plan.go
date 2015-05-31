@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"reflect"
 
 	"github.com/stripe/stripe-go"
@@ -16,7 +17,7 @@ func (p Plan) ID() string {
 	return p.s.ID
 }
 
-func (p Plan) NewParams() *stripe.PlanParams {
+func (p Plan) newParams() *stripe.PlanParams {
 	return &stripe.PlanParams{
 		Params: stripe.Params{
 			Meta: p.s.Meta,
@@ -33,11 +34,11 @@ func (p Plan) NewParams() *stripe.PlanParams {
 }
 
 func (p Plan) New(api *client.API) error {
-	_, err := api.Plans.New(p.NewParams())
+	_, err := api.Plans.New(p.newParams())
 	return err
 }
 
-func (p Plan) UpdateParams() *stripe.PlanParams {
+func (p Plan) updateParams() *stripe.PlanParams {
 	return &stripe.PlanParams{
 		Params: stripe.Params{
 			Meta: p.s.Meta,
@@ -48,10 +49,16 @@ func (p Plan) UpdateParams() *stripe.PlanParams {
 }
 
 func (p Plan) Update(api *client.API) error {
-	_, err := api.Plans.Update(p.ID(), p.UpdateParams())
+	_, err := api.Plans.Update(p.ID(), p.updateParams())
 	return err
 }
 
-func (p *Plan) Compare(plan StripeThing) bool {
-	return reflect.DeepEqual(p.UpdateParams(), plan.(*Plan).UpdateParams())
+func (p Plan) Compare(plan StripeThing) bool {
+	// TODO: Be smarter about comparing attributes which we can't update?
+	return reflect.DeepEqual(p.updateParams(), plan.(*Plan).updateParams())
+}
+
+func (p Plan) String() string {
+	// TODO: Something prettier here?
+	return fmt.Sprintf("<Plan %s>", p.s.ID)
 }

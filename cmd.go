@@ -61,6 +61,7 @@ func main() {
 	if err != nil {
 		fail(1, "Failed to initialize API: %s\n", err)
 	}
+	api.out = os.Stderr
 
 	if options.Pretend {
 		logger.Info("Running in pretend mode. Write operations will be skipped.")

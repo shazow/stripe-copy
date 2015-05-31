@@ -1,6 +1,11 @@
 package main
 
-import "github.com/stripe/stripe-go/client"
+import (
+	"fmt"
+	"io"
+
+	"github.com/stripe/stripe-go/client"
+)
 
 func NewSync() *syncThing {
 	return &syncThing{
@@ -53,4 +58,20 @@ func (s *syncThing) SyncTarget(api *client.API) error {
 		}
 	}
 	return nil
+}
+
+// Diff writes a diff summary into a writer.
+func (s syncThing) Diff(w io.Writer) (err error) {
+	if len(s.target) > 0 {
+		fmt.Fprintf(w, "%d loaded; %d missing, %d changed:\n", len(s.target), len(s.missing), len(s.changed))
+	}
+	for _, t := range s.missing {
+		fmt.Fprintf(w, "+ %s\n", t)
+	}
+	for _, t := range s.changed {
+		// TODO: Print diff
+		// fmt.Fprintf(w, "~ %s\n  %s\n", t, s.target[id])
+		fmt.Fprintf(w, "~ %s\n", t)
+	}
+	return
 }
