@@ -57,7 +57,7 @@ $ stripe-copy -vv --pretend
 In approximate order of priority:
 
 - [x] Sync Plans
-- [ ] Confirm Customers
+- [x] Confirm Customers
 - [ ] Sync Subscriptions (if customers are present)
 - [ ] Release v1.0
 - [ ] Export to file (YAML?)
