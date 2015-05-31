@@ -65,7 +65,41 @@ func (api stripeAPI) SyncPlans() error {
 	logger.Infof("Plans: %d loaded, %d missing, %d changed.", len(sync.target), len(sync.missing), len(sync.changed))
 
 	if api.pretend {
-		logger.Debug("Pretend mode: Stopping early.")
+		logger.Debug("SyncPlans: Pretend mode, stopping early.")
+		return nil
+	}
+
+	return sync.SyncTarget(api.target)
+}
+
+func (api stripeAPI) CheckCustomers() error {
+	sync := NewSync()
+
+	logger.Debug("Loading target customers...")
+	params := &stripe.CustomerListParams{}
+	iter := api.target.Customers.List(params)
+	for iter.Next() {
+		p := iter.Customer()
+		sync.AddTarget(&Customer{p})
+	}
+	if err := iter.Err(); err != nil {
+		return err
+	}
+
+	logger.Debugf("Loaded %d target customers. Loading source customers...", len(sync.target))
+	iter = api.source.Customers.List(params)
+	for iter.Next() {
+		p := iter.Customer()
+		sync.AddSource(&Customer{p})
+	}
+	if err := iter.Err(); err != nil {
+		return err
+	}
+
+	logger.Infof("Customers: %d loaded, %d missing, %d changed.", len(sync.target), len(sync.missing), len(sync.changed))
+
+	if api.pretend {
+		logger.Debug("CheckCustomers: Pretend mode, stopping early.")
 		return nil
 	}
 

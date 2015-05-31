@@ -70,7 +70,13 @@ func main() {
 	err = api.SyncPlans()
 	if err != nil {
 		fail(2, "Failed to sync plans: %s\n", err)
+	}
+
+	err = api.CheckCustomers()
+	if err != nil {
+		fail(3, "Failed to check customers: %s\n", err)
 
 	}
+
 	os.Exit(0)
 }
