@@ -73,10 +73,14 @@ func main() {
 		fail(2, "Failed to sync plans: %s\n", err)
 	}
 
-	err = api.CheckCustomers()
+	customers, err := api.CheckCustomers()
 	if err != nil {
 		fail(3, "Failed to check customers: %s\n", err)
+	}
 
+	err = api.SyncSubs(customers)
+	if err != nil {
+		fail(4, "Failed to sync subscriptions: %s\n", err)
 	}
 
 	os.Exit(0)

@@ -75,7 +75,8 @@ func (api stripeAPI) SyncPlans() error {
 	return sync.SyncTarget(api.target)
 }
 
-func (api stripeAPI) CheckCustomers() error {
+func (api stripeAPI) CheckCustomers() ([]Customer, error) {
+	customers := []Customer{}
 	sync := NewSync()
 
 	logger.Debug("Loading target customers...")
@@ -86,22 +87,66 @@ func (api stripeAPI) CheckCustomers() error {
 		sync.AddTarget(&Customer{p})
 	}
 	if err := iter.Err(); err != nil {
-		return err
+		return customers, err
 	}
 
 	logger.Debugf("Loaded %d target customers. Loading source customers...", len(sync.target))
 	iter = api.source.Customers.List(params)
 	for iter.Next() {
 		p := iter.Customer()
-		sync.AddSource(&Customer{p})
+		customer := Customer{p}
+		sync.AddSource(&customer)
+		customers = append(customers, customer)
 	}
 	if err := iter.Err(); err != nil {
-		return err
+		return customers, err
 	}
 
 	sync.Diff(api.out)
 	if api.pretend {
 		logger.Debug("CheckCustomers: Pretend mode, stopping early.")
+		return customers, nil
+	}
+
+	return customers, sync.SyncTarget(api.target)
+}
+
+func (api stripeAPI) SyncSubs(customers []Customer) error {
+	sync := NewSync()
+
+	logger.Debug("Loading target subscriptions...")
+	for _, customer := range customers {
+		params := &stripe.SubListParams{
+			Customer: customer.ID(),
+		}
+		iter := api.target.Subs.List(params)
+		for iter.Next() {
+			s := iter.Sub()
+			sync.AddTarget(&Sub{s})
+		}
+		if err := iter.Err(); err != nil {
+			return err
+		}
+	}
+	logger.Debugf("Loaded %d target subscriptions. Loading source subscriptions...", len(sync.target))
+
+	for _, customer := range customers {
+		params := &stripe.SubListParams{
+			Customer: customer.ID(),
+		}
+		iter := api.source.Subs.List(params)
+		for iter.Next() {
+			s := iter.Sub()
+			sync.AddSource(&Sub{s})
+		}
+		if err := iter.Err(); err != nil {
+			return err
+		}
+	}
+
+	sync.Diff(api.out)
+	if api.pretend {
+		logger.Debug("SyncSubs: Pretend mode, stopping early.")
 		return nil
 	}
 

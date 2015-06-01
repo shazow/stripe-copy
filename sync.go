@@ -62,9 +62,7 @@ func (s *syncThing) SyncTarget(api *client.API) error {
 
 // Diff writes a diff summary into a writer.
 func (s syncThing) Diff(w io.Writer) (err error) {
-	if len(s.target) > 0 {
-		fmt.Fprintf(w, "%d loaded; %d missing, %d changed:\n", len(s.target), len(s.missing), len(s.changed))
-	}
+	fmt.Fprintf(w, "%d loaded; %d missing, %d changed:\n", len(s.target), len(s.missing), len(s.changed))
 	for _, t := range s.missing {
 		fmt.Fprintf(w, "+ %s\n", t)
 	}

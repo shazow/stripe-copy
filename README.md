@@ -60,9 +60,11 @@ In approximate order of priority:
 - [x] Confirm Customers
 - [ ] Sync Subscriptions (if customers are present)
 - [ ] Release v1.0
+- [ ] Optionl to cancel subscriptions on source
 - [ ] Export to file (YAML?)
 - [ ] Import from file
 - [ ] Release v1.1
+- [ ] Parallelize
 - [ ] Setup continuous builds for binaries of tagged releases
 - [ ] Refactor sync logic into a library and document
 - [ ] Add tests
